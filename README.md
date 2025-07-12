@@ -1,13 +1,15 @@
-Team leader: Anshul Pandey 
+Team Name:- Singularity
 
-Problem Statement: StackIt – A Minimal Q&A Forum Platform
+Team leader:- Anshul Pandey 
 
-Team Email Address:
+Problem Statement:- StackIt – A Minimal Q&A Forum Platform
 
--Anshul Pandey = anshul4894@gmail.com
+Team Email Address:-
 
--Amit Rajput = amitrajput1504@gmail.com
+-Anshul Pandey: anshul4894@gmail.com
 
--Anas Khan = khananas2573@gmail.com
+-Amit Rajput: amitrajput1504@gmail.com
 
--Nandini Biswas = nandini.biswas210@gmail.com
+-Anas Khan: khananas2573@gmail.com
+
+-Nandini Biswas: nandini.biswas210@gmail.com
