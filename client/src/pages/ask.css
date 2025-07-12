@@ -1,0 +1,49 @@
+/* ask.css */
+.ask-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.ask-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ask-container form input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.ask-container label {
+  font-weight: bold;
+  margin-top: 20px;
+  display: block;
+}
+
+.ask-container .ql-container {
+  height: 200px;
+  margin-bottom: 20px;
+}
+
+.ask-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.ask-container button:hover {
+  background-color: #0056b3;
+}
