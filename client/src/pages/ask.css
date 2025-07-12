@@ -1,49 +1,96 @@
-/* ask.css */
+.ask-page {
+  background: linear-gradient(135deg, #e0f7ff, #fbefff);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding: 30px 10px;
+}
+
 .ask-container {
-  max-width: 700px;
-  margin: 40px auto;
-  padding: 30px;
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.ask-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.ask-container form input[type="text"] {
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 720px;
   width: 100%;
-  padding: 12px;
-  margin: 10px 0 20px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  animation: fadeInUp 0.4s ease;
+}
+
+.ask-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #444;
+  text-align: center;
 }
 
 .ask-container label {
-  font-weight: bold;
-  margin-top: 20px;
+  font-weight: 500;
+  margin-top: 15px;
   display: block;
+  color: #333;
 }
 
+.ask-container input[type="text"],
+.ask-container input[type="file"],
 .ask-container .ql-container {
-  height: 200px;
-  margin-bottom: 20px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  font-size: 15px;
 }
 
-.ask-container button {
+.ask-btn {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  background-color: #6f42c1;
   color: white;
+  font-weight: bold;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   font-size: 16px;
+  transition: background 0.3s, transform 0.2s;
   cursor: pointer;
 }
 
-.ask-container button:hover {
-  background-color: #0056b3;
+.ask-btn:hover {
+  background-color: #5a32a3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(111, 66, 193, 0.4);
+}
+
+.ask-btn:disabled {
+  background-color: #a079d6;
+  cursor: not-allowed;
+}
+
+.animated-slide-in {
+  animation: slideIn 0.5s ease-in-out;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

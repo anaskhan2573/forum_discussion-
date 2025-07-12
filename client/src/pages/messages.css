@@ -1,0 +1,344 @@
+/* src/pages/messages.css */
+.messages-page {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+}
+
+.contacts-sidebar {
+  width: 350px;
+  background-color: white;
+  border-right: 1px solid #e1e1e1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.sidebar-header h2 {
+  margin: 0 0 15px 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 15px 10px 35px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 14px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  color: #999;
+}
+
+.contacts-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.contact-card {
+  display: flex;
+  padding: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.contact-card:hover {
+  background-color: #f9f9f9;
+}
+
+.contact-card.active {
+  background-color: #f0f5ff;
+}
+
+.contact-avatar {
+  position: relative;
+  margin-right: 15px;
+}
+
+.contact-avatar img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.online-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  background-color: #4CAF50;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-info h3 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.last-message {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 10px;
+}
+
+.message-time {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+.unread-count {
+  background-color: #4a6bff;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: white;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.chat-user {
+  display: flex;
+  align-items: center;
+}
+
+.chat-user img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.chat-user h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.user-status {
+  margin: 0;
+  font-size: 12px;
+  color: #777;
+}
+
+.chat-actions button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  margin-left: 15px;
+  cursor: pointer;
+  color: #666;
+}
+
+.messages-area {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-image: url('https://web.whatsapp.com/img/bg-chat-tile-light_a4be512e7195b6b733d9110b408f075d.png');
+  background-repeat: repeat;
+  background-size: 250px;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.message.sent {
+  justify-content: flex-end;
+}
+
+.message.received {
+  justify-content: flex-start;
+}
+
+.message-content {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 18px;
+  position: relative;
+}
+
+.sent .message-content {
+  background-color: #4a6bff;
+  color: white;
+  border-top-right-radius: 5px;
+}
+
+.received .message-content {
+  background-color: white;
+  color: #333;
+  border-top-left-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.message-time {
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 5px;
+  display: block;
+  text-align: right;
+}
+
+.received .message-time {
+  color: #999;
+}
+
+.no-chat-selected {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+}
+
+.welcome-message {
+  text-align: center;
+  padding: 20px;
+}
+
+.welcome-message h2 {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.welcome-message p {
+  color: #888;
+}
+
+.message-input-area {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: white;
+  border-top: 1px solid #e1e1e1;
+  position: relative;
+}
+
+.emoji-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  color: #666;
+}
+
+.emoji-picker-container {
+  position: absolute;
+  bottom: 70px;
+  left: 15px;
+  z-index: 10;
+}
+
+.message-input-area textarea {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 10px 15px;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  max-height: 100px;
+}
+
+.send-btn {
+  background-color: #4a6bff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.send-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.send-btn:hover:not(:disabled) {
+  background-color: #3a5bef;
+}
+
+/* Scrollbar styling */
+.contacts-list::-webkit-scrollbar,
+.messages-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+.contacts-list::-webkit-scrollbar-track,
+.messages-area::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.contacts-list::-webkit-scrollbar-thumb,
+.messages-area::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.contacts-list::-webkit-scrollbar-thumb:hover,
+.messages-area::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}

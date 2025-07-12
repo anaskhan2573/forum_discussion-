@@ -242,8 +242,42 @@ body {
   flex: 1;
 }
 
+/* Enhanced User Profile Styles */
+.user-profile-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-name-display {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.dropdown-item {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .user-name-display {
+    display: none;
+  }
+  
+  .user-profile img {
+    width: 32px;
+    height: 32px;
+  }
+}
+
 .questions-sidebar {
-  flex: 0 0 300px;
+flex: 0 0 360px;
   background-color: var(--card-bg);
   border-radius: 8px;
   padding: 1rem;

@@ -1,89 +1,111 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
-   FiMessageSquare, FiPlus, 
+  FiMessageSquare, FiPlus, 
   FiBell, FiMenu, FiX, FiSearch, FiHome, 
   FiUsers, FiMail, FiUser, FiThumbsUp 
 } from "react-icons/fi";
 import "./home.css";
 
 const Home = () => {
-  const [questions, setQuestions] = useState([]);
-  const [user, setUser] = useState(null);
-  const [activeQuestion, setActiveQuestion] = useState(null);
-  const [answers, setAnswers] = useState([]);
+  // Dummy questions data
+  const dummyQuestions = [
+    {
+      _id: "1",
+      title: "How to center a div in CSS?",
+      description: "I've been trying to center a div both horizontally and vertically but nothing seems to work. What's the best modern approach?",
+      votes: 15,
+      tags: ["css", "frontend", "web-development"],
+      createdAt: new Date(Date.now() - 3600000).toISOString(),
+      postedBy: {
+        name: "John Doe",
+        avatar: "https://randomuser.me/api/portraits/men/1.jpg"
+      }
+    },
+    {
+      _id: "2",
+      title: "React useState hook not updating immediately",
+      description: "When I try to use useState in my React component, the state doesn't update right away. Why is this happening and how can I fix it?",
+      votes: 8,
+      tags: ["react", "javascript", "hooks"],
+      createdAt: new Date(Date.now() - 86400000).toISOString(),
+      postedBy: {
+        name: "Jane Smith",
+        avatar: "https://randomuser.me/api/portraits/women/1.jpg"
+      }
+    },
+    {
+      _id: "3",
+      title: "Best way to learn Node.js for beginners",
+      description: "I'm new to backend development and want to learn Node.js. What resources and projects would you recommend for a complete beginner?",
+      votes: 23,
+      tags: ["nodejs", "javascript", "backend"],
+      createdAt: new Date(Date.now() - 172800000).toISOString(),
+      postedBy: {
+        name: "Alex Johnson",
+        avatar: "https://randomuser.me/api/portraits/men/2.jpg"
+      }
+    },
+    {
+      _id: "4",
+      title: "Difference between let, const and var in JavaScript",
+      description: "Can someone explain the key differences between these variable declarations with practical examples?",
+      votes: 42,
+      tags: ["javascript", "es6"],
+      createdAt: new Date(Date.now() - 259200000).toISOString(),
+      postedBy: {
+        name: "Sarah Williams",
+        avatar: "https://randomuser.me/api/portraits/women/2.jpg"
+      }
+    }
+  ];
+
+  // Dummy answers data
+  const dummyAnswers = [
+    {
+      _id: "a1",
+      content: "You can use flexbox. Just add these styles to the parent: display: flex; justify-content: center; align-items: center;",
+      votes: 5,
+      createdAt: new Date(Date.now() - 1800000).toISOString(),
+      userAvatar: "https://randomuser.me/api/portraits/men/3.jpg",
+      userName: "Mike Brown"
+    },
+    {
+      _id: "a2",
+      content: "Another approach is using CSS Grid: display: grid; place-items: center; This works well for modern browsers.",
+      votes: 3,
+      createdAt: new Date(Date.now() - 2700000).toISOString(),
+      userAvatar: "https://randomuser.me/api/portraits/women/3.jpg",
+      userName: "Emily Davis"
+    }
+  ];
+
+  const [questions, setQuestions] = useState(dummyQuestions);
+  const [user, setUser] = useState({
+    _id: "u1",
+    name: "Ajay",
+    avatar: "https://randomuser.me/api/portraits/men/5.jpg"
+  });
+  const [activeQuestion, setActiveQuestion] = useState(dummyQuestions[0]);
+  const [answers, setAnswers] = useState(dummyAnswers);
   const [sortBy, setSortBy] = useState("newest");
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  //const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [newAnswer, setNewAnswer] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (e) {
-        console.error("Invalid user JSON", e);
-        setUser(null);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch("http://localhost:8000/api/questions");
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setQuestions(data);
-        
-        if (data.length > 0) {
-          setActiveQuestion(data[0]);
-          await fetchAnswers(data[0]._id);
-        }
-      } catch (err) {
-        console.error("Error fetching questions:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchQuestions();
-  }, );
-
- const fetchAnswers = async (questionId) => {
-  try {
-    const res = await fetch(`/api/questions/${questionId}/answers`);
-    if (!res.ok) {
-      const errorData = await res.text();  // or res.json() if it's JSON
-      throw new Error(`HTTP error! status: ${res.status} | ${errorData}`);
-    }
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching answers:', error);
-  }
-};
-
-
+  // Rest of your existing functions remain the same
   const handleQuestionClick = (question) => {
     setActiveQuestion(question);
-    fetchAnswers(question._id);
+    // For demo purposes, we'll just use the dummy answers
+    setAnswers(dummyAnswers);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
     setUser(null);
     navigate("/");
-    window.location.reload();
   };
 
   const sortAnswers = (sortType, answersToSort = answers) => {
@@ -114,102 +136,41 @@ const Home = () => {
     setShowSortDropdown(!showSortDropdown);
   };
 
-  const handlePostAnswer = async (e) => {
+  const handlePostAnswer = (e) => {
     e.preventDefault();
     if (!newAnswer.trim() || !user || !activeQuestion) return;
     
-    try {
-      const response = await fetch(
-        `http://localhost:8000/api/questions/${activeQuestion._id}/answers`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            content: newAnswer,
-            userId: user._id,
-            userName: user.name,
-            userAvatar: user.avatar
-          }),
-        }
-      );
+    const newAnswerObj = {
+      _id: `a${answers.length + 1}`,
+      content: newAnswer,
+      votes: 0,
+      createdAt: new Date().toISOString(),
+      userAvatar: user.avatar,
+      userName: user.name
+    };
+    
+    setAnswers([...answers, newAnswerObj]);
+    setNewAnswer("");
+  };
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setAnswers([...answers, data]);
-      setNewAnswer("");
-      fetchAnswers(activeQuestion._id); // Refresh answers
-    } catch (err) {
-      console.error("Error posting answer:", err);
+  const handleLikeQuestion = (questionId) => {
+    if (!user) return;
+    
+    setQuestions(questions.map(q => 
+      q._id === questionId ? {...q, votes: (q.votes || 0) + 1} : q
+    ));
+    
+    if (activeQuestion && activeQuestion._id === questionId) {
+      setActiveQuestion({...activeQuestion, votes: (activeQuestion.votes || 0) + 1});
     }
   };
 
-  const handleLikeQuestion = async (questionId) => {
+  const handleLikeAnswer = (answerId) => {
     if (!user) return;
     
-    try {
-      const response = await fetch(
-        `http://localhost:8000/api/questions/${questionId}/like`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user._id
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const updatedQuestions = questions.map(q => 
-        q._id === questionId ? {...q, votes: (q.votes || 0) + 1} : q
-      );
-      setQuestions(updatedQuestions);
-      
-      if (activeQuestion && activeQuestion._id === questionId) {
-        setActiveQuestion({...activeQuestion, votes: (activeQuestion.votes || 0) + 1});
-      }
-    } catch (err) {
-      console.error("Error liking question:", err);
-    }
-  };
-
-  const handleLikeAnswer = async (answerId) => {
-    if (!user) return;
-    
-    try {
-      const response = await fetch(
-        `http://localhost:8000/api/answers/${answerId}/like`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user._id
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const updatedAnswers = answers.map(a => 
-        a._id === answerId ? {...a, votes: (a.votes || 0) + 1} : a
-      );
-      setAnswers(updatedAnswers);
-    } catch (err) {
-      console.error("Error liking answer:", err);
-    }
+    setAnswers(answers.map(a => 
+      a._id === answerId ? {...a, votes: (a.votes || 0) + 1} : a
+    ));
   };
 
   const filteredQuestions = questions.filter(q =>
@@ -219,7 +180,7 @@ const Home = () => {
 
   return (
     <div className="stackit-app">
-      {/* Header */}
+      {/* Header - remains the same as your original */}
       <header className="app-header">
         <div className="header-container">
           <div className="logo-container">
@@ -287,7 +248,7 @@ const Home = () => {
         </div>
       </header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - remains the same */}
       {mobileMenuOpen && (
         <div className="mobile-menu">
           <div className="mobile-search">
@@ -328,60 +289,43 @@ const Home = () => {
             </button>
           </div>
           
-          {loading ? (
-            <div className="loading-questions">
-              <div className="loading-spinner"></div>
-              <p>Loading questions...</p>
-            </div>
-          ) : filteredQuestions.length === 0 ? (
-            <div className="no-questions">
-              <p>No questions found</p>
-              <button 
-                className="ask-question-btn"
-                onClick={() => navigate("/ask")}
+          <div className="questions-list">
+            {filteredQuestions.map((q) => (
+              <div 
+                key={q._id} 
+                className={`question-card ${activeQuestion?._id === q._id ? 'active' : ''}`}
+                onClick={() => handleQuestionClick(q)}
               >
-                <FiPlus size={18} /> Be the first to ask
-              </button>
-            </div>
-          ) : (
-            <div className="questions-list">
-              {filteredQuestions.map((q) => (
-                <div 
-                  key={q._id} 
-                  className={`question-card ${activeQuestion?._id === q._id ? 'active' : ''}`}
-                  onClick={() => handleQuestionClick(q)}
-                >
-                  <div className="question-votes">
-                    <span>{q.votes || 0}</span>
-                    <span>votes</span>
-                  </div>
-                  <div className="question-content">
-                    <h3>{q.title}</h3>
-                    <p className="question-excerpt">{q.description.slice(0, 120)}...</p>
-                    <div className="question-footer">
-                      <div className="question-tags">
-                        {q.tags.slice(0, 2).map((tag, idx) => (
-                          <span key={idx} className="tag">{tag}</span>
-                        ))}
-                        {q.tags.length > 2 && (
-                          <span className="more-tags">+{q.tags.length - 2}</span>
-                        )}
-                      </div>
-                      <div className="question-meta">
-                        <span>{new Date(q.createdAt).toLocaleDateString()}</span>
-                        <span>• {q?.postedBy?.name || "Anonymous"}</span>
-                      </div>
+                <div className="question-votes">
+                  <span>{q.votes || 0}</span>
+                  <span>votes</span>
+                </div>
+                <div className="question-content">
+                  <h3>{q.title}</h3>
+                  <p className="question-excerpt">{q.description.slice(0, 120)}...</p>
+                  <div className="question-footer">
+                    <div className="question-tags">
+                      {q.tags.slice(0, 2).map((tag, idx) => (
+                        <span key={idx} className="tag">{tag}</span>
+                      ))}
+                      {q.tags.length > 2 && (
+                        <span className="more-tags">+{q.tags.length - 2}</span>
+                      )}
+                    </div>
+                    <div className="question-meta">
+                      <span>{new Date(q.createdAt).toLocaleDateString()}</span>
+                      <span>• {q?.postedBy?.name || "Anonymous"}</span>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
         </aside>
 
         {/* Main Discussion Area */}
         <section className="discussion-area">
-          {activeQuestion ? (
+          {activeQuestion && (
             <>
               {/* Question Post */}
               <div className="post-card">
@@ -394,7 +338,7 @@ const Home = () => {
                   <div className="post-author-info">
                     <h3>{activeQuestion?.postedBy?.name || "Anonymous"}</h3>
                     <p className="post-meta">
-                      {new Date(activeQuestion.createdAt).toLocaleDateString()}
+                      Asked on {new Date(activeQuestion.createdAt).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
@@ -412,7 +356,7 @@ const Home = () => {
                 </div>
                 
                 <div className="post-stats">
-                  <span className="likes">{activeQuestion.votes || 0} likes</span>
+                  <span className="likes">{activeQuestion.votes || 0} votes</span>
                   <span className="comments">{answers.length} answers</span>
                 </div>
                 
@@ -422,7 +366,7 @@ const Home = () => {
                     onClick={() => handleLikeQuestion(activeQuestion._id)}
                   >
                     <FiThumbsUp size={18} />
-                    <span>Like</span>
+                    <span>Upvote</span>
                   </button>
                   <button 
                     className="post-action-btn"
@@ -479,7 +423,7 @@ const Home = () => {
                     {answers.map((answer) => (
                       <div 
                         key={answer._id} 
-                        className={`answer-card ${answer.isAccepted ? 'accepted' : ''}`}
+                        className="answer-card"
                       >
                         <div className="answer-header">
                           <img 
@@ -490,7 +434,7 @@ const Home = () => {
                           <div className="answer-author-info">
                             <h4>{answer?.userName || "Anonymous"}</h4>
                             <p className="answer-meta">
-                              Answered {new Date(answer.createdAt).toLocaleDateString()}
+                              Answered on {new Date(answer.createdAt).toLocaleDateString()}
                             </p>
                           </div>
                         </div>
@@ -505,7 +449,7 @@ const Home = () => {
                             onClick={() => handleLikeAnswer(answer._id)}
                           >
                             <FiThumbsUp size={16} />
-                            <span>Like ({answer.votes || 0})</span>
+                            <span>Upvote ({answer.votes || 0})</span>
                           </button>
                         </div>
                       </div>
@@ -529,21 +473,10 @@ const Home = () => {
                 )}
               </div>
             </>
-          ) : (
-            <div className="no-question-selected">
-              <h2>Welcome to StackIt</h2>
-              <p>Select a question from the sidebar to view its details</p>
-              <button 
-                className="ask-question-btn"
-                onClick={() => navigate("/ask")}
-              >
-                <FiPlus size={18} /> Ask a Question
-              </button>
-            </div>
           )}
         </section>
 
-        {/* Right Sidebar */}
+        {/* Right Sidebar - remains the same */}
         <aside className="info-sidebar">
           <div className="sidebar-widget">
             <h3>About StackIt</h3>
@@ -561,24 +494,7 @@ const Home = () => {
             </div>
           </div>
           
-          <div className="sidebar-widget">
-            <h3>Top Contributors</h3>
-            <div className="contributors-list">
-              {[
-                { name: "John Doe", answers: 42 },
-                { name: "Jane Smith", answers: 38 },
-                { name: "Alex Johnson", answers: 35 },
-                { name: "Sarah Williams", answers: 28 },
-                { name: "Mike Brown", answers: 25 }
-              ].map((user, index) => (
-                <div key={index} className="contributor">
-                  <span className="rank">{index + 1}</span>
-                  <span className="name">{user.name}</span>
-                  <span className="answers">{user.answers} answers</span>
-                </div>
-              ))}
-            </div>
-          </div>
+       
         </aside>
       </main>
     </div>

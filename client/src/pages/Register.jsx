@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import "./auth.css";
 
 const avatarOptions = [
-  "https://i.pravatar.cc/150?img=3",
-  "https://i.pravatar.cc/150?img=5",
-  "https://i.pravatar.cc/150?img=7",
-  "https://i.pravatar.cc/150?img=8",
-  "https://i.pravatar.cc/150?img=10",
+  "https://api.dicebear.com/6.x/bottts/svg?seed=Tomato",
+  "https://api.dicebear.com/6.x/bottts/svg?seed=Zebra",
+  "https://api.dicebear.com/6.x/bottts/svg?seed=Tiger",
+  "https://api.dicebear.com/6.x/bottts/svg?seed=Alien",
+  "https://api.dicebear.com/6.x/bottts/svg?seed=Ghost",
 ];
 
 const Register = () => {
@@ -16,7 +16,7 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
-    avatar: avatarOptions[0], // default
+    avatar: avatarOptions[0],
   });
 
   const navigate = useNavigate();
@@ -33,7 +33,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // simple frontend validation
     if (!form.name || !form.email || !form.password) {
       alert("❌ All fields are required.");
       return;
@@ -63,12 +62,12 @@ const Register = () => {
 
   return (
     <div className="auth-container">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
+      <h2>🚀 Register to StackIt</h2>
+      <form onSubmit={handleSubmit} className="auth-form">
         <input
           type="text"
           name="name"
-          placeholder="Full Name"
+          placeholder="👤 Full Name"
           value={form.name}
           onChange={handleChange}
           required
@@ -76,7 +75,7 @@ const Register = () => {
         <input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder="📧 Email"
           value={form.email}
           onChange={handleChange}
           required
@@ -84,13 +83,13 @@ const Register = () => {
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="🔒 Password"
           value={form.password}
           onChange={handleChange}
           required
         />
 
-        <label>Select an Avatar</label>
+        <label>🎨 Choose Your Avatar</label>
         <div className="avatar-options">
           {avatarOptions.map((url) => (
             <img
@@ -105,7 +104,7 @@ const Register = () => {
           ))}
         </div>
 
-        <button type="submit">Register</button>
+        <button type="submit">📝 Register</button>
       </form>
     </div>
   );
