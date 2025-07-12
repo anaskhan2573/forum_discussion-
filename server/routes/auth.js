@@ -6,28 +6,30 @@ const bcrypt = require("bcryptjs");
 // Register API
 router.post("/register", async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { name, email, password, avatar } = req.body; // ✅ use correct field names
 
     // Check if user exists
     const existingUser = await User.findOne({ email });
-    if (existingUser)
+    if (existingUser) {
       return res.status(400).json({ message: "Email already in use" });
+    }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
     const newUser = new User({
-      username,
+      name,
       email,
       password: hashedPassword,
+      avatar,
     });
 
     await newUser.save();
 
     res.status(201).json({ message: "Registration successful!" });
   } catch (error) {
-    console.error(error);
+    console.error("Register Error:", error);
     res.status(500).json({ message: "Something went wrong!" });
   }
 });
@@ -49,7 +51,15 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid password" });
     }
 
-    res.status(200).json({ message: "Login successful", user: { username: user.username, email: user.email } });
+    // ✅ Send back user details including name and avatar
+    res.status(200).json({
+      message: "Login successful",
+      user: {
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+      },
+    });
   } catch (err) {
     console.error("Login Error:", err);
     res.status(500).json({ message: "Something went wrong!" });

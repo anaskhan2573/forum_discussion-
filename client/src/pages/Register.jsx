@@ -1,68 +1,111 @@
+// src/pages/Register.jsx
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./auth.css";
 
-const Register = () => {
-  const navigate = useNavigate();
+const avatarOptions = [
+  "https://i.pravatar.cc/150?img=3",
+  "https://i.pravatar.cc/150?img=5",
+  "https://i.pravatar.cc/150?img=7",
+  "https://i.pravatar.cc/150?img=8",
+  "https://i.pravatar.cc/150?img=10",
+];
 
-  const [formData, setFormData] = useState({
-    username: "",
+const Register = () => {
+  const [form, setForm] = useState({
+    name: "",
     email: "",
     password: "",
+    avatar: avatarOptions[0], // default
   });
 
-  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAvatarSelect = (url) => {
+    setForm((prev) => ({ ...prev, avatar: url }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
+
+    // simple frontend validation
+    if (!form.name || !form.email || !form.password) {
+      alert("❌ All fields are required.");
+      return;
+    }
 
     try {
-      const res = await axios.post("http://localhost:8000/api/auth/register", formData);
-      setMessage(res.data.message);
-      setTimeout(() => {
+      const res = await fetch("http://localhost:8000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("✅ Registered successfully!");
+        localStorage.setItem("user", JSON.stringify(data.user));
         navigate("/login");
-      }, 1500);
-    } catch (err) {
-      setMessage(err.response?.data?.message || "Registration failed.");
+      } else {
+        alert("❌ " + (data.message || "Registration failed"));
+      }
+    } catch (error) {
+      console.error("Registration Error:", error);
+      alert("Something went wrong. Please try again.");
     }
   };
 
   return (
     <div className="auth-container">
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <h2>Register</h2>
-
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
-          name="username"
-          placeholder="Username"
-          required
+          name="name"
+          placeholder="Full Name"
+          value={form.name}
           onChange={handleChange}
+          required
         />
         <input
           type="email"
           name="email"
           placeholder="Email"
-          required
+          value={form.email}
           onChange={handleChange}
+          required
         />
         <input
           type="password"
           name="password"
           placeholder="Password"
-          required
+          value={form.password}
           onChange={handleChange}
+          required
         />
 
-        <button type="submit">Register</button>
+        <label>Select an Avatar</label>
+        <div className="avatar-options">
+          {avatarOptions.map((url) => (
+            <img
+              key={url}
+              src={url}
+              alt="avatar"
+              className={`avatar-option ${
+                form.avatar === url ? "selected" : ""
+              }`}
+              onClick={() => handleAvatarSelect(url)}
+            />
+          ))}
+        </div>
 
-        {message && <p className="message">{message}</p>}
+        <button type="submit">Register</button>
       </form>
     </div>
   );
